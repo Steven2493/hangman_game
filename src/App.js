@@ -38,7 +38,7 @@
 
     //Scrambling word is causing underscore to replace spaces, which cause the user not to win the game.
     wordToGuess() {
-      let wordToArray = wordOfTheGame.split("").map((letter) => (letter === " " ? "" : "_"));
+      let wordToArray = wordOfTheGame.split("").map((letter) => (letter === " " ? "" : "_"));s
       console.log(`${wordToArray.join(" ")} hey`);
       console.log(wordToArray);
       return wordToArray.join(" ")
