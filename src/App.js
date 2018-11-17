@@ -35,28 +35,13 @@
       return;
     }
 
-
-    //Scrambling word is causing underscore to replace spaces, which cause the user not to win the game.
     wordToGuess() {
-      let wordToArray = wordOfTheGame.split("").map((letter) => (letter === " " ? "" : "_"));s
-      console.log(`${wordToArray.join(" ")} hey`);
-      console.log(wordToArray);
-      return wordToArray.join(" ")
-      /*for(let i = 0; i < wordOfTheGame.length; i++){
-        if(wordGuess[i] === ' '){
-          wordGuess[i] = "4";
-          console.log(wordGuess[i])
-        }else{
-          console.log(`${wordGuess} what is this`)
-          wordGuess[i] = "_";
-        }
-      }
-      return wordGuess.join(' ');*/
+      return wordOfTheGame.split("").map((letter) => (letter !== " " ? "_ " : " "));;
     }
     
     checkWord(){
       console.log(`${this.state.wordScrambled} test test`)  
-      if(this.state.wordScrambled.split(" ").join("") === wordOfTheGame){
+      if(this.state.wordScrambled.join("") === wordOfTheGame){
         this.setState({wordIsGuessed: true})
       }else{
         console.log("checkword function: false")
@@ -80,9 +65,8 @@
       }
     }
 
-    clickEvent(letter){
-      //Checks if the word has been solved each time user pressses a button.
-      this.checkWord();
+
+    clickEvent(letter, e){
       if(this.state.wordIsGuessed === true){  
         //Add logic when game is finshed
         console.log("You figured the right word");
@@ -91,16 +75,14 @@
         console.log("You ran out of guess");
         return;
       }
-
+ 
       //Check if the button press is a valid answer if yes, then update this.state.wordScrambled.
-      const wordCopy = this.state.wordScrambled.split(" ");
-      console.log(`${wordOfTheGame} hey this is wordCOpy`)
+      let wordCopy = this.state.wordScrambled;
       if(wordOfTheGame.indexOf(letter) > -1){
+        console.log(wordCopy)
         wordCopy.map((i, y) => {
           if(wordOfTheGame[y] === letter){
-            console.log(`${wordCopy} test`)
             wordCopy[y] = letter;
-            console.log(`Num of Guess: ${this.state.numOfGuess}`);
           }
         });
       }else{
@@ -113,9 +95,10 @@
     
       //update hidden word state after user guess
       this.setState({
-        wordScrambled: wordCopy.join(" "),
+        wordScrambled: wordCopy,
       })
-      console.log(`Num of Guess: ${this.state.numOfGuess}`);
+      //Checks if the word has been solved each time user pressses a button.
+      this.checkWord();
     }
 
     render(){
@@ -125,7 +108,7 @@
           <img  src={this.state.hangman} alt="hangman_0"/>
           <p>Hey this is stuff</p>
         </div>
-        <p className="GameWord">{this.state.wordScrambled}</p>
+        <p className="GameWord">{this.state.wordScrambled.join("")}</p>
         <WordBank buttonPressed={this.clickEvent}/>
         <p>{this.state.numOfGuess === 6 ? "You lost" : console.log(this.state.wordIsGuessed)}</p>
         <p>{
